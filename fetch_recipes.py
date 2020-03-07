@@ -42,14 +42,27 @@ def make_clean_recipes():
 
     all_recipes = {}
 
+    with open("craft_times.txt") as f:
+        content = f.read()
+    items, craft_times = content.split("\n")
+    items = [i.replace(" ", "-").lower() for i in items.split("\t")]
+    craft_times = craft_times.split()
+    craft_map = dict(zip(items, craft_times))
+
     for recipe in r + demo_recipe + modules + demo_furnace:
         try:
             ingredients = recipe["ingredients"]
         except KeyError:
             ingredients = recipe["normal"]["ingredients"]
 
+        try:
+            craft_time = craft_map[recipe["name"]]
+        except KeyError:
+            print("No craft time found:", recipe["name"])
+            craft_time = 1
+
         all_recipes[recipe["name"]] = {
-            "craft_time": 1,
+            "craft_time": craft_time,
             "items_per_craft": recipe.get("result_count", 1),
             "materials": ingredients,
         }

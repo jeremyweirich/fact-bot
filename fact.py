@@ -25,6 +25,11 @@ RAW = [
     "uranium-238",
     "used-up-uranium-fuel-cell",
 ]
+ALIASES = {
+    "green-circuit": "electronic-circuit",
+    "red-circuit": "advanced-circuit",
+    "blue-circuit": "processing-unit",
+}
 
 with open(r"recipes.json") as f:
     RECIPES = json.loads(f.read())
@@ -58,6 +63,7 @@ def machine_craft_speed(beacons, produles, machine_tier=3):
 
 
 def make_prod_report(target_product, beacons, produles, target_rate=1):
+    target_product = ALIASES.get(target_product, target_product)
     production_rate, production_reqs = prod_rate(
         RECIPES[target_product], beacons, produles
     )
