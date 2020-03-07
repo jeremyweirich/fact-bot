@@ -10,12 +10,10 @@ from fact import RECIPES
 
 
 client = discord.Client()
-TOKEN = os.getenv("BOT_TOKEN")
 INVOCATION = "!factobot"
 
 
 def parse_command(command):
-
     tokens = command.split()
     if any([token.startswith("--") for token in tokens]):
         return "Define options with -, not --"
@@ -59,4 +57,9 @@ async def on_message(message):
         await message.channel.send(response)
 
 
-client.run(TOKEN)
+if __name__ == "__main__":
+    from dotenv import load_dotenv
+
+    load_dotenv()
+    TOKEN = os.getenv("BOT_TOKEN")
+    client.run(TOKEN)

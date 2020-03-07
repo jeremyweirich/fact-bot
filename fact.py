@@ -1,24 +1,33 @@
-from pprint import pprint
-
+import json
 
 CRAFT_SPEEDS = {1: 0.5, 2: 0.75, 3: 1.25}
 SPEED_MODULE_BONUS = 0.5
 PROD_BONUS = 0.1
 PROD_SPEED_PENALTY = 0.15
-RECIPES = {
-    "wire": {"craft_time": 0.5, "items_per_craft": 2, "materials": {"copper": 1}},
-    "green-circuit": {
-        "craft_time": 0.5,
-        "items_per_craft": 1,
-        "materials": {"wire": 3, "iron": 1},
-    },
-    "red-circuit": {
-        "craft_time": 6,
-        "items_per_craft": 1,
-        "materials": {"green-circuit": 2, "wire": 4, "plastic": 2},
-    },
-}
-RAW = ["iron", "copper", "plastic"]
+RAW = [
+    "iron-plate",
+    "copper-plate",
+    "plastic-bar",
+    "sulfuric-acid",
+    "lubricant",
+    "water",
+    "coal",
+    "sulfur",
+    "steel-plate",
+    "stone",
+    "wood",
+    "iron-ore",
+    "copper-ore",
+    "solid-fuel",
+    "light-oil",
+    "uranium-ore",
+    "uranium-235",
+    "uranium-238",
+    "used-up-uranium-fuel-cell",
+]
+
+with open(r"recipes.json") as f:
+    RECIPES = json.loads(f.read())
 
 
 def scale(mats, multiplier):
@@ -93,9 +102,10 @@ def aggregate(prod_report):
 
 
 if __name__ == "__main__":
-    r = make_prod_report(
-        target_product="red-circuit", target_rate=10, beacons=0, produles=0,
-    )
-    pprint(r)
-    print()
-    print(aggregate(r))
+    for recipe in RECIPES:
+        r = make_prod_report(
+            target_product=recipe, target_rate=10, beacons=0, produles=0,
+        )
+        # pprint(r)
+        # print()
+        # print(aggregate(r))
