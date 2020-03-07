@@ -157,10 +157,9 @@ async def on_message(message):
 
 
 if __name__ == "__main__":
-    # import os
-    # from dotenv import load_dotenv
-    #
-    # load_dotenv()
-    # TOKEN = os.getenv("BOT_TOKEN")
-    # client.run(TOKEN)
-    print(parse_command("help recipes"))
+    import os
+    from dotenv import load_dotenv
+
+    load_dotenv()
+    TOKEN = os.getenv("BOT_TOKEN")
+    client.run(TOKEN)
