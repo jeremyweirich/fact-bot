@@ -62,11 +62,9 @@ def machine_craft_speed(beacons, produles, machine_tier=3):
     return craft_speed * modifier
 
 
-def make_prod_report(target_product, beacons, produles, target_rate=1):
-    target_product = ALIASES.get(target_product, target_product)
-    production_rate, production_reqs = prod_rate(
-        RECIPES[target_product], beacons, produles
-    )
+def make_prod_report(recipe, beacons, produles, target_rate=1):
+    recipe = ALIASES.get(recipe, recipe)
+    production_rate, production_reqs = prod_rate(RECIPES[recipe], beacons, produles)
     ratio = assemblers_needed = round(target_rate / production_rate, 2)
     final_production_reqs = scale(production_reqs, ratio)
     for material, required in final_production_reqs.items():
@@ -78,10 +76,10 @@ def make_prod_report(target_product, beacons, produles, target_rate=1):
             )
         else:
             raise Exception(
-                f"'{target_product}' requires material with no recipe: '{material}'"
+                f"'{recipe}' requires material with no recipe: '{material}'"
             )
     return {
-        "material": target_product,
+        "material": recipe,
         "assemblers": assemblers_needed,
         "inputs": final_production_reqs,
     }
@@ -109,9 +107,7 @@ def aggregate(prod_report):
 
 if __name__ == "__main__":
     for recipe in RECIPES:
-        r = make_prod_report(
-            target_product=recipe, target_rate=10, beacons=0, produles=0,
-        )
+        r = make_prod_report(recipe=recipe, target_rate=10, beacons=0, produles=0,)
         # pprint(r)
         # print()
         # print(aggregate(r))

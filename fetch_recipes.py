@@ -56,7 +56,7 @@ def make_clean_recipes():
             ingredients = recipe["normal"]["ingredients"]
 
         try:
-            craft_time = craft_map[recipe["name"]]
+            craft_time = float(craft_map[recipe["name"]])
         except KeyError:
             print("No craft time found:", recipe["name"])
             craft_time = 1
